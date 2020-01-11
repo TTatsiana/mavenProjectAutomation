@@ -1,18 +1,19 @@
-package module_two_1.models;
+package moduletwo1.models;
 
-import module_two_1.exceptions.NullGroupException;
-import module_two_1.models.enums.FacultiesNames;
-import module_two_1.models.enums.Messenger;
+import moduletwo1.exceptions.NullGroupException;
+import moduletwo1.models.enums.FacultiesNames;
+import moduletwo1.models.enums.Messenger;
 
 import java.util.List;
 
 public class Faculty {
+
     private FacultiesNames name;
     private List<Group> groups;
 
     public Faculty(FacultiesNames name, List<Group> groups) throws NullGroupException {
         if (groups.isEmpty() || groups.contains(null)) {
-            throw new NullGroupException(Messenger.NULL_GROUP.toString());
+            throw new NullGroupException(Messenger.NULL_GROUP.getTitle());
         }
         this.name = name;
         this.groups = groups;

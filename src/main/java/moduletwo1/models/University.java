@@ -1,22 +1,23 @@
-package module_two_1.models;
+package moduletwo1.models;
 
-import module_two_1.exceptions.NullFacultyException;
-import module_two_1.models.enums.DisciplineNames;
-import module_two_1.models.enums.FacultiesNames;
-import module_two_1.models.enums.GroupNames;
-import module_two_1.models.enums.Messenger;
+import moduletwo1.exceptions.NullFacultyException;
+import moduletwo1.models.enums.DisciplineNames;
+import moduletwo1.models.enums.FacultiesNames;
+import moduletwo1.models.enums.GroupNames;
+import moduletwo1.models.enums.Messenger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class University {
+
     private String name;
     private List<Faculty> facultyList;
 
     public University(String name, List<Faculty> facultyList) throws NullFacultyException {
         if (facultyList.isEmpty()) {
-            throw new NullFacultyException(Messenger.NULL_FACULTY.toString());
+            throw new NullFacultyException(Messenger.NULL_FACULTY.getTitle());
         }
         this.name = name;
         this.facultyList = facultyList;

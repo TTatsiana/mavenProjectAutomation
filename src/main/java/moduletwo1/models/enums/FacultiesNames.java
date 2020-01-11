@@ -1,7 +1,11 @@
-package module_two_1.models.enums;
+package moduletwo1.models.enums;
 
 public enum FacultiesNames {
-    HISTORY("Исторический"), MATHEMATICS("Математический"), LAW("Юридический");
+
+    HISTORY("Faculty of history"),
+    MATHEMATICS("Faculty of mathematics"),
+    LAW("Faculty of law");
+
     private String title;
 
     FacultiesNames(String title) {

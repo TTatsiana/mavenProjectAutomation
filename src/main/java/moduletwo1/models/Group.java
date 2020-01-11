@@ -1,18 +1,19 @@
-package module_two_1.models;
+package moduletwo1.models;
 
-import module_two_1.exceptions.NullStudentException;
-import module_two_1.models.enums.GroupNames;
-import module_two_1.models.enums.Messenger;
+import moduletwo1.exceptions.NullStudentException;
+import moduletwo1.models.enums.GroupNames;
+import moduletwo1.models.enums.Messenger;
 
 import java.util.List;
 
 public class Group {
+
     private GroupNames name;
     private List<Student> students;
 
     public Group(GroupNames name, List<Student> students) throws NullStudentException {
-        if (students.size() == 0) {
-            throw new NullStudentException(Messenger.NULL_STUDENT.toString());
+        if (students.isEmpty()) {
+            throw new NullStudentException(Messenger.NULL_STUDENT.getTitle());
         }
         this.name = name;
         this.students = students;

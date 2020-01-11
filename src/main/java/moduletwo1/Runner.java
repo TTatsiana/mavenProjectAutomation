@@ -1,14 +1,14 @@
-package module_two_1;
+package moduletwo1;
 
-import module_two_1.exceptions.DataEntryExceptions;
-import module_two_1.models.Faculty;
-import module_two_1.models.Group;
-import module_two_1.models.Student;
-import module_two_1.models.University;
-import module_two_1.models.enums.DisciplineNames;
-import module_two_1.models.enums.FacultiesNames;
-import module_two_1.models.enums.GroupNames;
-import module_two_1.models.enums.Messenger;
+import moduletwo1.exceptions.DataEntryExceptions;
+import moduletwo1.models.Faculty;
+import moduletwo1.models.Group;
+import moduletwo1.models.Student;
+import moduletwo1.models.University;
+import moduletwo1.models.enums.DisciplineNames;
+import moduletwo1.models.enums.FacultiesNames;
+import moduletwo1.models.enums.GroupNames;
+import moduletwo1.models.enums.Messenger;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,8 +20,9 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class Runner {
+
     private static final Logger LOGGER = Logger.getLogger(Runner.class.getName());
-    private static final String INPUT_FILE = "src/in.txt";
+    private static final String INPUT_FILE = "data/in.txt";
     private static final int SKIP5 = 5;
     private static final int SKIP10 = 10;
     private static final int SKIP15 = 15;
@@ -29,6 +30,7 @@ public class Runner {
     private static final int LIMIT5 = 5;
     private static final int INDEX_0 = 0;
     private static final int INDEX_3 = 3;
+    private static final String OUTPUT_FORMAT = "%s %s = %.2f";
 
     public static void main(String[] args) {
         List<Faculty> facultyList;
@@ -38,13 +40,13 @@ public class Runner {
             University university = new University("GSU", facultyList);
             System.out.println(university);
             someStudent = facultyList.get(INDEX_0).getGroups().get(INDEX_0).getStudents().get(INDEX_3);
-            System.out.println(String.format("%s %s = %.2f", Messenger.COUNT_BY_STUDENT, someStudent.getName(),
+            System.out.println(String.format(OUTPUT_FORMAT, Messenger.AVERAGE_SCORE_STUDENT.getTitle(), someStudent.getName(),
                     university.calculateAverageMarkForAllStudentSubjects(someStudent)));
-            System.out.println(String.format("%s %s = %.2f", Messenger.COUNT_BY_ALL_UNIVERSITY,
-                    DisciplineNames.ENGLISH.getTitle(),
+            System.out.println(String.format(OUTPUT_FORMAT, Messenger.AVERAGE_SCORE_FOR_THE_SUBJECT.getTitle(),
+                    DisciplineNames.ENGLISH,
                     university.calculateAverageMarkForUniversityInSubject(DisciplineNames.ENGLISH)));
-            System.out.println(String.format("%s %s,%s,%s) = %.2f", Messenger.COUNT_BY_CONDITION,
-                    DisciplineNames.RUSSIAN_LANGUAGE.getTitle(), GroupNames.HIS_2, FacultiesNames.HISTORY.getTitle(),
+            System.out.println(String.format("%s %s,%s,%s) = %.2f", Messenger.AVERAGE_SCORE_FOR_THE_SUBJECT_IN_THE_GROUP.getTitle(),
+                    DisciplineNames.RUSSIAN_LANGUAGE, GroupNames.HIS_2, FacultiesNames.HISTORY.getTitle(),
                     university.calculateAverageMarkByCondition(DisciplineNames.RUSSIAN_LANGUAGE,
                             GroupNames.HIS_2, FacultiesNames.HISTORY)));
         } catch (DataEntryExceptions e) {

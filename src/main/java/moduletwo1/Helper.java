@@ -1,19 +1,22 @@
-package module_two_1;
+package moduletwo1;
 
-import module_two_1.exceptions.IllegalMarksException;
-import module_two_1.exceptions.NullDisciplineException;
-import module_two_1.models.Student;
-import module_two_1.models.enums.DisciplineNames;
+import moduletwo1.exceptions.IllegalMarksException;
+import moduletwo1.exceptions.NullDisciplineException;
+import moduletwo1.models.Student;
+import moduletwo1.models.enums.DisciplineNames;
 
 import java.util.*;
 
 public class Helper {
+
     private static final String REGEX = ";";
     private static final String REGEX_COMMA = ",";
     private static final int INDEX_0 = 0;
+    private static final int INCREASE_BY_2 = 2;
+    private static final int MINIMUM_LENGTH = 2;
 
     public List<Student> getListStudents(Scanner scanner) throws NullDisciplineException, IllegalMarksException {
-        int increaseIndex=1;
+        int increaseIndex = 1;
         List<Student> studentList = new ArrayList<>();
         while (scanner.hasNext()) {
             String csvLine = scanner.nextLine();
@@ -21,8 +24,8 @@ public class Helper {
             String[] objectFields = csvLine.split(REGEX);
             String name = objectFields[INDEX_0];
             Map<DisciplineNames, List<Integer>> mapMarks = new HashMap<>();
-            if (objectFields.length > 1) {
-                for (int i = 1; i < objectFields.length; i = i + 2) {
+            if (objectFields.length >= MINIMUM_LENGTH) {
+                for (int i = 1; i < objectFields.length; i = i + INCREASE_BY_2) {
                     DisciplineNames disciplineNames = DisciplineNames.valueOf(objectFields[i]);
                     List<Integer> listMarks = new ArrayList<>();
                     String[] marks = objectFields[i + increaseIndex].split(REGEX_COMMA);

@@ -1,6 +1,7 @@
-package module_two_1.exceptions;
+package moduletwo1.exceptions;
 
 public class NullStudentException extends DataEntryExceptions {
+
     public NullStudentException(String message) {
         super(message);
     }
