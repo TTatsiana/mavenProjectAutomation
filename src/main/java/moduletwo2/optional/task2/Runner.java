@@ -1,6 +1,12 @@
 package moduletwo2.optional.task2;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -9,11 +15,18 @@ import java.util.logging.Logger;
 public class Runner {
 
     private static final Logger LOGGER = Logger.getLogger(Runner.class.getName());
-    private static final String FILE = "fileForTask2.txt";
-    private static final String DIR = "d:\\";
+    private static final String FILE = "Runner.java";
+    private static final String DIR = "data\\";
 
     public static void main(String[] args) {
         File file = new File(DIR + File.separator + FILE);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         List<String> listFromFile = readListFromFile(file);
         writeListToFile(listFromFile, file);
     }

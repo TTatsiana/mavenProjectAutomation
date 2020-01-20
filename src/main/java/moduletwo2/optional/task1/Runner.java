@@ -1,6 +1,12 @@
 package moduletwo2.optional.task1;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +17,7 @@ public class Runner {
 
     private static final Logger LOGGER = Logger.getLogger(Runner.class.getName());
     private static final String FILE = "resultTask1.txt";
-    private static final String DIR = "d:\\";
+    private static final String DIR = "data\\";
     private static final int SOME_LIMIT = 10;
     private static final int SOME_FACTOR = 100;
 
