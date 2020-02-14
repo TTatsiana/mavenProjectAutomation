@@ -11,7 +11,7 @@ public class CloudGooglePage extends AbstractPage {
 
     private static final String CLOUD_GOOGLE_PAGE = " https://cloud.google.com/";
     private WebDriverWait wait;
-    private static int WAIT_TIMEOUT_SECONDS = 120;
+    private static final int WAIT_TIMEOUT_SECONDS = 120;
 
     public CloudGooglePage(WebDriver driver) {
         super(driver);

@@ -10,26 +10,26 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class CloudGoogleCalculatorPage extends AbstractPage {
 
     private static final String NUMBER_OF_INSTANCES = "4";
-    private static int WAIT_TIMEOUT_SECONDS = 120;
-    private static String ELEMENT_XPATH_INSTANCES = "//input[@name='quantity']";
-    private static String ELEMENT_XPATH_OPERATING_SYSTEM = "//md-select-value[@id='select_value_label_46']/span";
-    private static String ELEMENT_XPATH_OPERATING_SYSTEM_CLICK = "//md-option[@id='select_option_55']/div";
-    private static String ELEMENT_XPATH_MACHINE_CLASS = "//md-select-value[@id='select_value_label_47']/span";
-    private static String ELEMENT_XPATH_MACHINE_CLASS_CLICK = "//md-option[@id='select_option_67']/div";
-    private static String ELEMENT_XPATH_MACHINE_TYPE = "//md-select-value[@id='select_value_label_50']/span";
-    private static String ELEMENT_XPATH_MACHINE_TYPE_CLICK = "//md-option[@id='select_option_212']/div";
-    private static String ELEMENT_XPATH_ADD_GPU = "//md-checkbox[@aria-label='Add GPUs']/div";
-    private static String ELEMENT_XPATH_GPU_NUMBER = "//md-select-value[@id='select_value_label_353']/span";
-    private static String ELEMENT_XPATH_GPU_NUMBER_CLICK = "//md-option[@id='select_option_360']/div";
-    private static String ELEMENT_XPATH_GPU__TYPE = "//md-select-value[@id='select_value_label_354']/span";
-    private static String ELEMENT_XPATH_GPU__TYPE_CLICK = "//md-option[@id='select_option_367']/div";
-    private static String ELEMENT_XPATH_LOCAL_SSD = "//md-select-value[@id='select_value_label_171']/span";
-    private static String ELEMENT_XPATH_LOCAL_SSD_CLICK = "//md-option[@id='select_option_233']/div";
-    private static String ELEMENT_XPATH_DATACENTER_LOCATION = "//md-select-value[@id='select_value_label_51']/span";
-    private static String ELEMENT_XPATH_DATACENTER_LOCATION_CLICK = "//md-option[@id='select_option_181']/div";
-    private static String ELEMENT_XPATH_COMMITED_USAGE = "//md-select-value[@id='select_value_label_52']/span";
-    private static String ELEMENT_XPATH_COMMITED_USAGE_CLICK = "//md-option[@id='select_option_85']/div";
-    private static String BUTTON_ADD_TO_ESTIMATE = "//button[@aria-label='Add to Estimate']";
+    private static final int WAIT_TIMEOUT_SECONDS = 120;
+    private static final String ELEMENT_XPATH_INSTANCES = "//input[@name='quantity']";
+    private static final String ELEMENT_XPATH_OPERATING_SYSTEM = "//md-select-value[@id='select_value_label_46']/span";
+    private static final String ELEMENT_XPATH_OPERATING_SYSTEM_CLICK = "//md-option[@id='select_option_55']/div";
+    private static final String ELEMENT_XPATH_MACHINE_CLASS = "//md-select-value[@id='select_value_label_47']/span";
+    private static final String ELEMENT_XPATH_MACHINE_CLASS_CLICK = "//md-option[@id='select_option_67']/div";
+    private static final String ELEMENT_XPATH_MACHINE_TYPE = "//md-select-value[@id='select_value_label_50']/span";
+    private static final String ELEMENT_XPATH_MACHINE_TYPE_CLICK = "//md-option[@id='select_option_212']/div";
+    private static final String ELEMENT_XPATH_ADD_GPU = "//md-checkbox[@aria-label='Add GPUs']/div";
+    private static final String ELEMENT_XPATH_GPU_NUMBER = "//md-select-value[@id='select_value_label_353']/span";
+    private static final String ELEMENT_XPATH_GPU_NUMBER_CLICK = "//md-option[@id='select_option_360']/div";
+    private static final String ELEMENT_XPATH_GPU__TYPE = "//md-select-value[@id='select_value_label_354']/span";
+    private static final String ELEMENT_XPATH_GPU__TYPE_CLICK = "//md-option[@id='select_option_367']/div";
+    private static final String ELEMENT_XPATH_LOCAL_SSD = "//md-select-value[@id='select_value_label_171']/span";
+    private static final String ELEMENT_XPATH_LOCAL_SSD_CLICK = "//md-option[@id='select_option_233']/div";
+    private static final String ELEMENT_XPATH_DATACENTER_LOCATION = "//md-select-value[@id='select_value_label_51']/span";
+    private static final String ELEMENT_XPATH_DATACENTER_LOCATION_CLICK = "//md-option[@id='select_option_181']/div";
+    private static final String ELEMENT_XPATH_COMMITED_USAGE = "//md-select-value[@id='select_value_label_52']/span";
+    private static final String ELEMENT_XPATH_COMMITED_USAGE_CLICK = "//md-option[@id='select_option_85']/div";
+    private static final String BUTTON_ADD_TO_ESTIMATE = "//button[@aria-label='Add to Estimate']";
     private WebDriverWait wait;
     JavascriptExecutor js;
 
@@ -42,7 +42,7 @@ public class CloudGoogleCalculatorPage extends AbstractPage {
 //        waitFramesAndSwitchToIt();
 //        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(ELEMENT_XPATH_INSTANCES)));
 //        driver.switchTo().defaultContent();
-               try {
+        try {
             Thread.sleep(10_000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -83,8 +83,8 @@ public class CloudGoogleCalculatorPage extends AbstractPage {
     }
 
     private void waitFramesAndSwitchToIt() {
-      wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe")));
-      wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe")));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe")));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe")));
     }
 
     private void clickByElement(By by) {
