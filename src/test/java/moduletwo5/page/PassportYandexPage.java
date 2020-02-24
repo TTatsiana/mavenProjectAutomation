@@ -1,5 +1,6 @@
 package moduletwo5.page;
 
+import moduletwo5.page.constants.StringСonstants;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,39 +11,31 @@ public class PassportYandexPage extends AbstractPage {
     private static final By LOCATOR_LOGIN = By.name("login");
     private static final By LOCATOR_PASSWD = By.name("passwd");
     private static final By LOCATOR_SUBMIT = By.xpath("//button[@type='submit']");
+    private static final By LOCATOR_FIELD_ERROR = By.xpath("//div[@class='passp-form-field__error']");
 
     public PassportYandexPage(WebDriver driver) {
         super(driver);
     }
 
-    public PassportYandexPage enterLoginPasswd(String login, String passwd) {
-        System.out.println(" ");
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        waitAndSend(LOCATOR_LOGIN, login);
-        waitAndClick(LOCATOR_SUBMIT);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        waitAndSend(LOCATOR_PASSWD, passwd);
-        waitAndClick(LOCATOR_SUBMIT);
-        return new PassportYandexPage(driver);
+    public YandexDiskPage enterValidLoginAndPasswd(String login, String passwd) {
+        return new YandexDiskPage(enterLoginAndPasswd(login, passwd));
     }
 
-    private void waitAndClick(By by) {
-        WebElement element = driver.findElement(by);
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        element.click();
+    public PassportYandexPage enterWrongLoginAndPasswd(String login, String passwd) {
+        return new PassportYandexPage(enterLoginAndPasswd(login, passwd));
     }
 
-    private void waitAndSend(By by, String mess) {
-        WebElement element = driver.findElement(by);
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        element.sendKeys(mess);
+    public boolean haveAnErrorMessage() {
+        return waitAndGetText(LOCATOR_FIELD_ERROR, driver).equals(StringСonstants.ERROR_PASSWD);
     }
+
+    private WebDriver enterLoginAndPasswd(String login, String passwd) {
+        waitAndSend(LOCATOR_LOGIN, login,driver);
+        waitAndClick(LOCATOR_SUBMIT, driver);
+        waitAndSend(LOCATOR_PASSWD, passwd,driver);
+        waitAndClick(LOCATOR_SUBMIT, driver);
+        return driver;
+    }
+
+
 }
