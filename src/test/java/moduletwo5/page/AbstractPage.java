@@ -12,7 +12,7 @@ public abstract class AbstractPage {
 
     protected WebDriver driver;
     protected WebDriverWait wait;
-    private static final int WAIT_TIMEOUT_SECONDS = 200;
+    private static final int WAIT_TIMEOUT_SECONDS = 300;
 
     protected AbstractPage(WebDriver driver) {
         this.driver = driver;
@@ -21,10 +21,10 @@ public abstract class AbstractPage {
     }
 
     protected void waitAndClick(By by, WebDriver driver) {
-        waitAndClick(getElement(by,driver), driver);
+        waitAndClick(getElement(by, driver));
     }
 
-    protected void waitAndClick(WebElement element, WebDriver driver) {
+    protected void waitAndClick(WebElement element) {
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }
@@ -35,20 +35,20 @@ public abstract class AbstractPage {
         actions.doubleClick(element).perform();
     }
 
-    protected WebElement getElement(By by,WebDriver driver){
+    protected WebElement getElement(By by, WebDriver driver) {
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
-       return driver.findElement(by);
+        return driver.findElement(by);
     }
 
     protected void waitAndSend(By by, String mess, WebDriver driver) {
         WebElement element = getElement(by, driver);
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.sendKeys(mess);
-      //  wait.until(ExpectedConditions.textToBe(by,mess));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(by, mess));
     }
 
     protected String waitAndGetText(By by, WebDriver driver) {
-        WebElement element=getElement(by,driver);
+        WebElement element = getElement(by, driver);
         wait.until(ExpectedConditions.elementToBeClickable(element));
         return element.getText();
     }

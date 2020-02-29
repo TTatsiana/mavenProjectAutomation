@@ -18,26 +18,26 @@ public class TestRunner {
     private WebDriver driver;
     private PassportYandexPage passportYandexPage;
     private YandexDiskPage yandexDiskPage;
-    private YandexSignInPage yandexSignIn;
 
     @BeforeClass
     public void getPrecondition() {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         driver = new ChromeDriver();
         setWaitingsForDriver(driver);
-        yandexSignIn = new YandexSignInPage(driver);
+        YandexSignInPage yandexSignIn = new YandexSignInPage(driver);
         yandexSignIn.openPage();
         passportYandexPage = yandexSignIn.signIn();
     }
 
-    @Test
+    @Test(description = "Test login into yandex disk using credentials (negative checks)")
     public void negativeCheckSignInYande() {
         passportYandexPage.enterWrongLoginAndPasswd(StringСonstants.WRONG_LOGIN, StringСonstants.WRONG_PASSWD);
         Assert.assertTrue(passportYandexPage.haveAnErrorMessage(),
                 "The username or password you entered is correct.");
     }
 
-    @Test
+    @Test(description = "Test login into yandex disk using credentials (positive checks)",
+            dependsOnMethods = "negativeCheckSignInYande")
     public void positiveCheckSignInYande() {
         driver.navigate().back();
         driver.navigate().refresh();
@@ -46,12 +46,9 @@ public class TestRunner {
                 "The username or password you entered is incorrect.");
     }
 
-    @Test
+    @Test(description = "Test that all main menu items works correctly and lead to correct page",
+            dependsOnMethods = "positiveCheckSignInYande")
     public void checkMainMenu() {
-        yandexDiskPage = passportYandexPage.enterValidLoginAndPasswd(StringСonstants.VALID_LOGIN, /////////////////////
-                StringСonstants.VALID_PASSWD);/////////////////////////////////////////////////////////////////////////
-
-        System.out.println(" ");
         Assert.assertEquals(MainMenu.LATEST.getTitle(), yandexDiskPage.getTabName(MainMenu.LATEST),
                 StringСonstants.ERROR_CLICKING_TAB + MainMenu.LATEST);
         Assert.assertEquals(MainMenu.FILES.getTitle(), yandexDiskPage.getTabName(MainMenu.FILES),
@@ -70,67 +67,60 @@ public class TestRunner {
                 StringСonstants.ERROR_CLICKING_TAB + MainMenu.ALBUMS);
     }
 
-    @Test
+    @Test(dependsOnMethods = "checkMainMenu")
     public void checkCreationOfNewFolder() {
-        yandexDiskPage = passportYandexPage.enterValidLoginAndPasswd(StringСonstants.VALID_LOGIN, /////////////////////
-                StringСonstants.VALID_PASSWD);////////////////////////////////////////////////////////////////////////
         yandexDiskPage = yandexDiskPage.goToTab(MainMenu.FILES);
         yandexDiskPage.createNewFolder(StringСonstants.FOLDER_NAME);
         Assert.assertTrue(yandexDiskPage.isTheFolderContained(StringСonstants.FOLDER_NAME),
                 StringСonstants.ERROR_FOLDER_NOT_CREATED);
     }
 
-    @Test
+    @Test(dependsOnMethods = "checkCreationOfNewFolder")
     public void checkThePossibilityOfVisitingTheFolder() {
-        yandexDiskPage = passportYandexPage.enterValidLoginAndPasswd(StringСonstants.VALID_LOGIN, /////////////////////
-                StringСonstants.VALID_PASSWD);////////////////////////////////////////////////////////////////////////
         yandexDiskPage = yandexDiskPage.goToTab(MainMenu.FILES);
         Assert.assertEquals(yandexDiskPage.getTiteFolder(StringСonstants.FOLDER_NAME), StringСonstants.FOLDER_NAME,
                 StringСonstants.ERROR_CLICKING_FOLDER + StringСonstants.FOLDER_NAME);
-
     }
 
-////////////////////
-    ///////////////////////
-    ////////////////////////////////
-    /////////////////////////////////
-    ////////////////////////////////
+    @Test(dependsOnMethods = "checkThePossibilityOfVisitingTheFolder")
+    public void checkThatCreatedNewWordDocumentInFolder() {
+        yandexDiskPage = yandexDiskPage.createdNewWordDocument(StringСonstants.FOLDER_NAME, StringСonstants.DOCUMENT_NAME,
+                StringСonstants.DOCUMENT_TEXT);
+        Assert.assertTrue(yandexDiskPage.isTheDocumentContainedInFolder(StringСonstants.DOCUMENT_NAME + ".docx"),
+                StringСonstants.ERROR_DOCUMENT_NOT_CREATED);
+    }
+
+    @Test(dependsOnMethods = "checkThatCreatedNewWordDocumentInFolder")
+    public void checkThatTheDocumentContainsText() {
+        Assert.assertEquals(yandexDiskPage.getTextFromDocument(StringСonstants.DOCUMENT_NAME + ".docx"), StringСonstants.DOCUMENT_TEXT,
+                StringСonstants.ERROR_SAVING_DATA);
+    }
 
 
-    @Test
+    @Test(dependsOnMethods = "checkThatTheDocumentContainsText")
     public void checkThatTheFolderIsDeleted() {
-        yandexDiskPage = passportYandexPage.enterValidLoginAndPasswd(StringСonstants.VALID_LOGIN, /////////////////////
-                StringСonstants.VALID_PASSWD);////////////////////////////////////////////////////////////////////////
         yandexDiskPage = yandexDiskPage.goToTab(MainMenu.FILES);
         yandexDiskPage.deleteFolder(StringСonstants.FOLDER_NAME);
         Assert.assertFalse(yandexDiskPage.isTheFolderContained(StringСonstants.FOLDER_NAME),
                 StringСonstants.ERROR_FOLDER_NOT_DELETED);
     }
 
-    @Test
+    @Test(dependsOnMethods = "checkThatTheFolderIsDeleted")
     public void checkThatTheFolderIsInTheBasket() {
-        yandexDiskPage = passportYandexPage.enterValidLoginAndPasswd(StringСonstants.VALID_LOGIN, /////////////////////
-                StringСonstants.VALID_PASSWD);////////////////////////////////////////////////////////////////////////
         yandexDiskPage = yandexDiskPage.goToTab(MainMenu.BASKET);
         Assert.assertTrue(yandexDiskPage.isTheFolderInTheBasket(StringСonstants.FOLDER_NAME),
                 StringСonstants.ERROR_FOLDER_NOT_IN_BASKET);
     }
 
-    @Test
+    @Test(dependsOnMethods = "checkThatTheFolderIsInTheBasket")
     public void checkThatTheBasketIsClean() {
-        yandexDiskPage = passportYandexPage.enterValidLoginAndPasswd(StringСonstants.VALID_LOGIN, /////////////////////
-                StringСonstants.VALID_PASSWD);////////////////////////////////////////////////////////////////////////
         yandexDiskPage = yandexDiskPage.goToTab(MainMenu.BASKET);
-yandexDiskPage=yandexDiskPage.clearTrash();
+        yandexDiskPage = yandexDiskPage.clearTrash();
         Assert.assertFalse(yandexDiskPage.isTheFolderInTheBasket(StringСonstants.FOLDER_NAME),
-               StringСonstants.ERROR_BASKED_IS_NOT_CLEARED);
+                StringСonstants.ERROR_BASKED_IS_NOT_CLEARED);
     }
 
     private void setWaitingsForDriver(WebDriver driver) {
-
-        // driver.manage().timeouts().pageLoadTimeout(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS);
-//        driver.manage().timeouts().implicitlyWait(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS);
-//        driver.manage().timeouts().setScriptTimeout(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS);
         driver.manage().window().maximize();
     }
 

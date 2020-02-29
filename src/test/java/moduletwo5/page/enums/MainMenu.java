@@ -5,7 +5,7 @@ public enum MainMenu {
     LATEST(0, "Последние файлы"),
     FILES(1, "Файлы"),
     PHOTO(2, "Все фотографии"),
-    ALBUMS(3,"Альбомы"),
+    ALBUMS(3, "Альбомы"),
     GENERAL_ACCESS(4, "Публичные ссылки"),
     HISTORY(5, "История"),
     ARCHIVE(6, "Архив"),

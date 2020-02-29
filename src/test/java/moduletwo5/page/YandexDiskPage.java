@@ -1,13 +1,14 @@
 package moduletwo5.page;
 
+import moduletwo5.page.constants.StringСonstants;
 import moduletwo5.page.enums.MainMenu;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,16 @@ public class YandexDiskPage extends AbstractPage {
     private static final By LOCATOR_DELETE = By.xpath("//div[@class='groupable-buttons__visible-buttons']//span[3]");
     private static final By LOCATOR_EMPTY_TRASH = By.xpath("//div[@class='listing-head']//button");
     private static final By LOCATOR_DIALOG_BODY_CLEAR = By.xpath("//div[@class='dialog__body']//button[2]");
-
+    private static final By LOCATOR_NEW_DOCUMENT = By.xpath("//div[@class='create-resource-popup-with-anchor__create-items']//button[2]//span");
+    private static final By LOCATOR_INPUT_TEXT_INTO_DOCUMENT = By.xpath("//p[@class='Paragraph']//span");
+    private static final By LOCATOR_BUTTON_FILE = By.xpath("//button//span");
+    private static final By LOCATOR_BUTTON_SAVE_AS = By.xpath("//div[@id='menuJewelSaveAs']//span");
+    private static final By LOCATOR_INPUT_NAME_DOCUMENT = By.xpath("//div[@id='DocumentNameBlock']//input");
+    private static final By LOCATOR_CLICK_OK = By.id("WACDialogActionButton");
+    private static final By LOCATOR_ALL_DOCUMENTS_IN_FOLDER = By.xpath("//div[@class='listing-item__info']//div//span");
+    private static final By LOCATOR_STATE_DOCUMENT = By.xpath("//span[@id='WACRibbon-QATRowCenter']");
+    private static final By LOCATOR_CHECK_NAME_OF_DOCUMENT = By.xpath("//span[@id='WACRibbon-QATRowCenter']//div");
+    private static final By LOCATOR_FOR_ELEMENT_ALL_FOLDERS = By.xpath("//div[@class='listing__items']");
 
 
     public YandexDiskPage(WebDriver driver) {
@@ -37,9 +47,65 @@ public class YandexDiskPage extends AbstractPage {
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(LOCATOR_USER_IMAGE));
     }
 
+    public List<WebElement> getAllElementsFromDirectory(By directoryLocator) {
+        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(directoryLocator));
+    }
+
+    private boolean isContained(String item, By directory) {
+        List<WebElement> list = getAllElementsFromDirectory(directory);
+        return list.stream().anyMatch(s -> s.getText().equals(item));
+    }
+
+    public boolean isTheDocumentContainedInFolder(String name) {
+        return isContained(name, LOCATOR_ALL_DOCUMENTS_IN_FOLDER);
+    }
+
+    public boolean isTheFolderContained(String name) {
+        return isContained(name, LOCATOR_ALL_FOLDERS);
+    }
+
+    public boolean isTheFolderInTheBasket(String name) {
+        try {
+            driver.findElement(LOCATOR_ALL_FOLDERS_IN_BASKET);
+            return isContained(name, LOCATOR_ALL_FOLDERS_IN_BASKET);
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public YandexDiskPage createdNewWordDocument(String folder, String documentName, String text) {
+        int firstTab = 0;
+        int secondTab = 1;
+        int countPages = driver.getWindowHandles().size();
+        waitAndClick(LOCATOR_BUTTON_CREATE, driver);
+        wait.until(ExpectedConditions.presenceOfElementLocated(LOCATOR_NEW_DOCUMENT));
+        waitAndClick(LOCATOR_NEW_DOCUMENT, driver);
+        wait.until(driver -> driver.getWindowHandles().size() > countPages);
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(secondTab));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe")));
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(LOCATOR_STATE_DOCUMENT));
+        completeDocument(LOCATOR_INPUT_TEXT_INTO_DOCUMENT, text);
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(LOCATOR_STATE_DOCUMENT, StringСonstants.SAVE_IN_YANDEX));
+        waitAndClick(LOCATOR_BUTTON_FILE, driver);
+        waitAndClick(LOCATOR_BUTTON_SAVE_AS, driver);
+        waitAndSend(LOCATOR_INPUT_NAME_DOCUMENT, documentName, driver);
+        waitAndClick(LOCATOR_CLICK_OK, driver);
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(LOCATOR_CHECK_NAME_OF_DOCUMENT, documentName));
+        driver.close();
+        driver.switchTo().window(tabs.get(firstTab));
+        return new YandexDiskPage(driver);
+    }
+
+    private void completeDocument(By by, String mess) {
+        WebElement element = getElement(by, driver);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        element.sendKeys(mess);
+    }
+
     public YandexDiskPage goToTab(MainMenu tab) {
-        List<WebElement> listElement = getAllMainMenuItems();
-        waitAndClick(listElement.get(tab.getIndex()), driver);
+        List<WebElement> listElement = getAllElementsFromDirectory(LOCATOR_ALL_MAIN_MENU_ITEMS);
+        waitAndClick(listElement.get(tab.getIndex()));
         return new YandexDiskPage(driver);
     }
 
@@ -49,67 +115,60 @@ public class YandexDiskPage extends AbstractPage {
     }
 
     public YandexDiskPage createNewFolder(String name) {
+        int count = driver.findElements(LOCATOR_ALL_FOLDERS).size();
         waitAndClick(LOCATOR_BUTTON_CREATE, driver);
         waitAndClick(LOCATOR_NEW_FOLDER, driver);
-        waitAndSend(LOCATOR_FILL_FOLDER_NAME, Keys.CONTROL + "a", driver);
+        clearTheField(LOCATOR_FILL_FOLDER_NAME);
+        waitAndSend(LOCATOR_FILL_FOLDER_NAME, name, driver);
+        waitAndClick(LOCATOR_BUTTON_SAVE, driver);
+        wait.until(driver1 -> driver.findElements(LOCATOR_ALL_FOLDERS).size() > count);
+        return new YandexDiskPage(driver);
+    }
+
+    private void clearTheField(By by) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(by));
+        driver.findElement(by).clear();
+        wait.until(ExpectedConditions.textToBePresentInElementValue(by, ""));
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        waitAndSend(LOCATOR_FILL_FOLDER_NAME, name, driver);
-        waitAndClick(LOCATOR_BUTTON_SAVE, driver);
-        return new YandexDiskPage(driver);
     }
 
-    public boolean isTheFolderContained(String name) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        List<WebElement> list = getAllFoldersFromFiles();
-        return list.stream().filter(s -> s.getText().equals(name)).count() > 0;
-    }
-
-    public boolean isTheFolderInTheBasket(String name) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        List<WebElement> list = getAllFoldersFromBasket();
-        return list.stream().filter(s -> s.getText().equals(name)).count() > 0;
-    }
-
-    private List<WebElement> getAllFoldersFromFiles() {
-        wait.until(ExpectedConditions.presenceOfElementLocated(LOCATOR_ALL_FOLDERS));
-        return driver.findElements(LOCATOR_ALL_FOLDERS);
-    }
-
-    private List<WebElement> getAllFoldersFromBasket() {
-        wait.until(ExpectedConditions.presenceOfElementLocated(LOCATOR_ALL_FOLDERS_IN_BASKET));
-        return driver.findElements(LOCATOR_ALL_FOLDERS_IN_BASKET);
-    }
-
-    private WebElement getWebElementFoldersFromFiles(String folder) {
-        List<WebElement> list = getAllFoldersFromFiles();
-        List<WebElement> listElements = list.stream().filter(s -> s.getText().equals(folder)).collect(Collectors.toList());
+    private WebElement getWebElementFromDirectory(String name, By by) {
+        List<WebElement> list = getAllElementsFromDirectory(by);
+        List<WebElement> listElements = list.stream().filter(s -> s.getText().equals(name)).collect(Collectors.toList());
         return listElements.get(0);
     }
 
+    private YandexDiskPage goToFolder(String folder) {
+        waitAndDoubleClick(getWebElementFromDirectory(folder, LOCATOR_ALL_FOLDERS), driver);
+        return new YandexDiskPage(driver);
+    }
+
+    public String getTextFromDocument(String name) {
+        int firstTab = 0;
+        int secondTab = 1;
+        waitAndDoubleClick(getWebElementFromDirectory(name, LOCATOR_ALL_DOCUMENTS_IN_FOLDER), driver);
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(secondTab));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe")));
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(LOCATOR_STATE_DOCUMENT));
+        String text = waitAndGetText(LOCATOR_INPUT_TEXT_INTO_DOCUMENT, driver);
+        driver.switchTo().defaultContent();
+        driver.close();
+        driver.switchTo().window(tabs.get(firstTab));
+        return text.trim();
+    }
+
     public String getTiteFolder(String folder) {
-        // WebElement element = getWebElementFoldersFromFiles(folder);
-        waitAndDoubleClick(getWebElementFoldersFromFiles(folder), driver);
-//        Actions actions = new Actions(driver);
-//        actions.doubleClick(element).perform();
-        String title = waitAndGetText(LOCATOR_FOLDER_TITLE, driver);
-        // driver.navigate().back();
-        return title;
+        goToFolder(folder);
+        return waitAndGetText(LOCATOR_FOLDER_TITLE, driver);
     }
 
     public YandexDiskPage deleteFolder(String folder) {
-        waitAndClick(getWebElementFoldersFromFiles(folder), driver);
+        waitAndClick(getWebElementFromDirectory(folder, LOCATOR_ALL_FOLDERS));
         waitAndClick(LOCATOR_DELETE, driver);
         return new YandexDiskPage(driver);
     }
@@ -132,22 +191,15 @@ public class YandexDiskPage extends AbstractPage {
         }
     }
 
-    private List<WebElement> getAllMainMenuItems() {
-        wait.until(ExpectedConditions.presenceOfElementLocated(LOCATOR_ALL_MAIN_MENU_ITEMS));
-        return driver.findElements(LOCATOR_ALL_MAIN_MENU_ITEMS);
-    }
-
     public String getAccountName() {
         waitAndClick(LOCATOR_USER_IMAGE, driver);
         return waitAndGetText(LOCATOR_USER_ACCOUNT_NAME, driver);
     }
 
-    public YandexDiskPage clearTrash(){
-        WebElement element=getAllFoldersFromBasket().get(0);
-        waitAndClick(LOCATOR_EMPTY_TRASH,driver);
-        waitAndClick(LOCATOR_DIALOG_BODY_CLEAR,driver);
-  //      wait.until(ExpectedConditions.stalenessOf(element));//
+    public YandexDiskPage clearTrash() {
+        waitAndClick(LOCATOR_EMPTY_TRASH, driver);
+        waitAndClick(LOCATOR_DIALOG_BODY_CLEAR, driver);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(LOCATOR_FOR_ELEMENT_ALL_FOLDERS));
         return new YandexDiskPage(driver);
     }
-
 }

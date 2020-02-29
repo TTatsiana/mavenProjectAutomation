@@ -3,8 +3,6 @@ package moduletwo5.page;
 import moduletwo5.page.constants.StringСonstants;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class PassportYandexPage extends AbstractPage {
 
@@ -30,12 +28,10 @@ public class PassportYandexPage extends AbstractPage {
     }
 
     private WebDriver enterLoginAndPasswd(String login, String passwd) {
-        waitAndSend(LOCATOR_LOGIN, login,driver);
+        waitAndSend(LOCATOR_LOGIN, login, driver);
         waitAndClick(LOCATOR_SUBMIT, driver);
-        waitAndSend(LOCATOR_PASSWD, passwd,driver);
+        waitAndSend(LOCATOR_PASSWD, passwd, driver);
         waitAndClick(LOCATOR_SUBMIT, driver);
         return driver;
     }
-
-
 }
