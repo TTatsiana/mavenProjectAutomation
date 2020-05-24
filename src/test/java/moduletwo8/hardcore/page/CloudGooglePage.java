@@ -4,39 +4,30 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CloudGooglePage extends AbstractPage {
 
     private static final String CLOUD_GOOGLE_PAGE = " https://cloud.google.com/";
-    private WebDriverWait wait;
-    private static final int WAIT_TIMEOUT_SECONDS = 120;
 
-    public CloudGooglePage(WebDriver driver) {
+    private CloudGooglePage(WebDriver driver) {
         super(driver);
-        wait = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS);
     }
 
-    public CloudGooglePage openPage() {
+
+    public static CloudGooglePage openPage(WebDriver driver) {
+        CloudGooglePage cloudGooglePage = new CloudGooglePage(driver);
         driver.get(CLOUD_GOOGLE_PAGE);
-        return this;
+        return cloudGooglePage;
     }
 
     public CloudGoogleCalculatorPage typeTextInSearchBoxAndGoToCalculatorPage(String str) {
         String xpathSearchBox = "//input[@name='q']";
         String xpathSearchingResults = "//div[@class='gs-title']//a";
         WebElement element = driver.findElement(By.xpath(xpathSearchBox));
-        waitAndClick(element);
+        clickByElement(element);
         element.sendKeys(str);
         element.sendKeys(Keys.ENTER);
-        element = driver.findElement(By.xpath(xpathSearchingResults));
-        waitAndClick(element);
+        clickByElement(By.xpath(xpathSearchingResults));
         return new CloudGoogleCalculatorPage(driver);
-    }
-
-    private void waitAndClick(WebElement element) {
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        element.click();
     }
 }
