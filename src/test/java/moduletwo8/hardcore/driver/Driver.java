@@ -7,23 +7,22 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Driver {
 
-    private  static WebDriver driver;
-   // private static String browser="chrome";////
-
+    private static WebDriver driver;
 
     private Driver() {
     }
 
-    public  static WebDriver getDriver(){
-        if (driver==null){
-           switch (System.getProperty("browser")){
-                case "chrome":{
+    public static WebDriver getDriver() {
+        if (driver == null) {
+            switch (System.getProperty("browser")) {
+                case "chrome": {
                     WebDriverManager.chromedriver().setup();
-                    driver=new ChromeDriver();
+                    driver = new ChromeDriver();
                     break;
                 }
-                default:{WebDriverManager.firefoxdriver().setup();
-                driver=new FirefoxDriver();
+                default: {
+                    WebDriverManager.firefoxdriver().setup();
+                    driver = new FirefoxDriver();
                 }
             }
             driver.manage().window().maximize();
@@ -31,10 +30,8 @@ public class Driver {
         return driver;
     }
 
-public static void closeDriver(){
-driver.quit();
-driver=null;
-}
-
-
+    public static void closeDriver() {
+        driver.quit();
+        driver = null;
+    }
 }

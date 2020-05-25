@@ -78,5 +78,4 @@ public class CloudGoogleCalculatorPage extends AbstractPage {
         driver.switchTo().defaultContent();
         return new ResultsPastebinPage(driver);
     }
-
 }

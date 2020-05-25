@@ -20,14 +20,15 @@ public class TestListener implements ITestListener {
     }
 
     private void saveScreenshot() {
-        File file=((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.FILE);
+        File file = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.FILE);
         try {
-            FileUtils.copyFile(file,new File(".//target/screenshots/"+getCurrentTimeAsString()+".png"));
-        }catch (IOException e){}
+            FileUtils.copyFile(file, new File(".//target/screenshots/" + getCurrentTimeAsString() + ".png"));
+        } catch (IOException e) {
+        }
     }
 
-    private String getCurrentTimeAsString(){
-        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("uuuu-MM-dd_HH-mm-ss");
+    private String getCurrentTimeAsString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd_HH-mm-ss");
         return ZonedDateTime.now().format(formatter);
     }
 }

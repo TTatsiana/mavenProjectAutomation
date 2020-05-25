@@ -13,7 +13,6 @@ public abstract class AbstractPage {
     protected WebDriver driver;
     protected WebDriverWait wait;
     protected JavascriptExecutor js;
-//protected abstract AbstractPage openPage();
 
     protected AbstractPage(WebDriver driver) {
         this.driver = driver;

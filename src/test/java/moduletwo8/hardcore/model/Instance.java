@@ -59,44 +59,9 @@ public class Instance {
         }
     }
 
-//    public Instance() {
-//    }
-//
     public Usage getUsage() {
         return usage;
     }
-//
-//    public void setNumber(Integer number) {
-//        this.number = number;
-//    }
-//
-//    public void setSoftware(Software software) {
-//        this.software = software;
-//    }
-//
-//    public void setVmClass(VMClass vmClass) {
-//        this.vmClass = vmClass;
-//    }
-//
-//    public void setType(Type type) {
-//        this.type = type;
-//    }
-//
-//    public void setGpu(GPU gpu) {
-//        this.gpu = gpu;
-//    }
-//
-//    public void setSsd(LocalSSD ssd) {
-//        this.ssd = ssd;
-//    }
-//
-//    public void setLocation(Location location) {
-//        this.location = location;
-//    }
-//
-//    public void setUsage(Usage usage) {
-//        this.usage = usage;
-//    }
 
     public Integer getNumber() {
         return number;

@@ -19,17 +19,15 @@ public class MinuteMailPage extends AbstractPage {
     public static MinuteMailPage openPage(WebDriver driver) {
         MinuteMailPage minuteMailPage = new MinuteMailPage(driver);
         driver.get(MINUTE_MAIL_PAGE);
-        try {
-            Thread.sleep(10_000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         return minuteMailPage;
     }
 
     public String getEmail() {
-        return driver.findElement(NEW_EMAIL).getAttribute(ATTRIBUTE_VALUE);
+        String str;
+        do {
+            str = driver.findElement(NEW_EMAIL).getAttribute(ATTRIBUTE_VALUE);
+        } while (!str.contains("@"));
+        return str;
     }
 
     public String getDataFromLetter() {

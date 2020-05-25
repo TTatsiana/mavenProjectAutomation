@@ -3,7 +3,7 @@ package moduletwo8.hardcore.model;
 public class GPU {
 
     private NumberOfGPUs number;
-    private  GPUType type;
+    private GPUType type;
 
     public GPU(NumberOfGPUs number, GPUType type) {
         this.number = number;

@@ -13,7 +13,6 @@ public class CloudGooglePage extends AbstractPage {
         super(driver);
     }
 
-
     public static CloudGooglePage openPage(WebDriver driver) {
         CloudGooglePage cloudGooglePage = new CloudGooglePage(driver);
         driver.get(CLOUD_GOOGLE_PAGE);
