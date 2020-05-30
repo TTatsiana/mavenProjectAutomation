@@ -1,7 +1,6 @@
 package moduletwo8.hardcore.page;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -12,8 +11,8 @@ public class ResultsPastebinPage extends AbstractPage {
     private static final By LOCATOR_FOR_ESTIMATE_FIELD = By.xpath("//md-list-item[@role='listitem']/div");
     private static final By LOCATOR_BUTTON_EMAIL = By.xpath("//button[@aria-label='Email Estimate']");
 
-    public ResultsPastebinPage(WebDriver driver) {
-        super(driver);
+    public ResultsPastebinPage() {
+        super();
     }
 
     private String getRowOfTheESTIMATEfield(int lineId) {
@@ -34,6 +33,6 @@ public class ResultsPastebinPage extends AbstractPage {
         waitFramesAndSwitchToIt();
         clickByElement(LOCATOR_BUTTON_EMAIL);
         driver.switchTo().defaultContent();
-        return new EmailYourEstimatePage(driver);
+        return new EmailYourEstimatePage();
     }
 }

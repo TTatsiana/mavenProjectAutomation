@@ -1,7 +1,6 @@
 package moduletwo8.hardcore.page;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -10,8 +9,8 @@ public class EmailYourEstimatePage extends AbstractPage {
     private static final String XPATH_INPUT_EMAIL = "//input[@type='email']";
     private static final String XPATH_BUTTON_SEND_EMAIL = "//button[@aria-label='Send Email']";
 
-    public EmailYourEstimatePage(WebDriver driver) {
-        super(driver);
+    public EmailYourEstimatePage() {
+        super();
     }
 
     private void fillField(String stringToFill, By by) {
@@ -32,11 +31,11 @@ public class EmailYourEstimatePage extends AbstractPage {
 
     public EmailYourEstimatePage fillEmail(String email) {
         fillField(email, By.xpath(XPATH_INPUT_EMAIL));
-        return new EmailYourEstimatePage(driver);
+        return this;
     }
 
-    public EmailYourEstimatePage sendEmail() {
+    public ResultsPastebinPage sendEmail() {
         clickField(By.xpath(XPATH_BUTTON_SEND_EMAIL));
-        return new EmailYourEstimatePage(driver);
+        return new ResultsPastebinPage();
     }
 }

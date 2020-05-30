@@ -1,8 +1,6 @@
 package moduletwo8.hardcore.page;
 
-import moduletwo8.hardcore.model.Instance;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -20,62 +18,84 @@ public class CloudGoogleCalculatorPage extends AbstractPage {
     private static final String ELEMENT_XPATH_COMMITED_USAGE = "//md-select-value[@id='select_value_label_57']/span";
     private static final String BUTTON_ADD_TO_ESTIMATE = "//button[@aria-label='Add to Estimate']";
 
-    public CloudGoogleCalculatorPage(WebDriver driver) {
-        super(driver);
+    public CloudGoogleCalculatorPage() {
+        super();
     }
 
-    public ResultsPastebinPage fillPageInstanceAndAddToEstimate(Instance instance) {
+    public CloudGoogleCalculatorPage fillNumberOfInstances(String str) {
         waitFramesAndSwitchToIt();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(ELEMENT_XPATH_INSTANCES)));
+        WebElement element = driver.findElement(By.xpath(ELEMENT_XPATH_INSTANCES));
+        element.sendKeys(str);
+        driver.switchTo().defaultContent();
+        return this;
+    }
 
-        if (instance.getNumber() != null) {
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath(ELEMENT_XPATH_INSTANCES)));
-            WebElement element = driver.findElement(By.xpath(ELEMENT_XPATH_INSTANCES));
-            element.sendKeys(instance.getNumber().toString());
-        }
+    public CloudGoogleCalculatorPage selectSoftware(String str) {
+        waitFramesAndSwitchToIt();
+        clickByElement(By.xpath(ELEMENT_XPATH_OPERATING_SYSTEM_CLICK));
+        clickByElement(By.xpath(str));
+        driver.switchTo().defaultContent();
+        return this;
+    }
 
-        if (instance.getSoftware() != null) {
-            clickByElement(By.xpath(ELEMENT_XPATH_OPERATING_SYSTEM_CLICK));
-            clickByElement(By.xpath(instance.getSoftware().getElementXpath()));
+    public CloudGoogleCalculatorPage selectVmClass(String str) {
+        waitFramesAndSwitchToIt();
+        clickByElement(By.xpath(ELEMENT_XPATH_MACHINE_CLASS));
+        clickByElement(By.xpath(str));
+        WebElement element = driver.findElement(By.xpath(ELEMENT_XPATH_MACHINE_CLASS));
+        js.executeScript("arguments[0].scrollIntoView();", element);
+        driver.switchTo().defaultContent();
+        return this;
+    }
 
-        }
+    public CloudGoogleCalculatorPage selectMacineType(String str) {
+        waitFramesAndSwitchToIt();
+        clickByElement(By.xpath(ELEMENT_XPATH_MACHINE_TYPE));
+        clickByElement(By.xpath(str));
+        driver.switchTo().defaultContent();
+        return this;
+    }
 
-        if (instance.getVmClass() != null) {
-            clickByElement(By.xpath(ELEMENT_XPATH_MACHINE_CLASS));
-            clickByElement(By.xpath(instance.getVmClass().getElementXpath()));
-            WebElement element = driver.findElement(By.xpath(ELEMENT_XPATH_MACHINE_CLASS));
-            js.executeScript("arguments[0].scrollIntoView();", element);
-        }
+    public CloudGoogleCalculatorPage addGPU(String number, String type) {
+        waitFramesAndSwitchToIt();
+        clickByElement(By.xpath(ELEMENT_XPATH_ADD_GPU));
+        clickByElement(By.xpath(ELEMENT_XPATH_GPU_NUMBER));
+        clickByElement(By.xpath(number));
+        clickByElement(By.xpath(ELEMENT_XPATH_GPU__TYPE));
+        clickByElement(By.xpath(type));
+        driver.switchTo().defaultContent();
+        return this;
+    }
 
-        if (instance.getType() != null) {
-            clickByElement(By.xpath(ELEMENT_XPATH_MACHINE_TYPE));
-            clickByElement(By.xpath(instance.getType().getElementXpath()));
-        }
+    public CloudGoogleCalculatorPage selectLocalSSD(String str) {
+        waitFramesAndSwitchToIt();
+        clickByElement(By.xpath(ELEMENT_XPATH_LOCAL_SSD));
+        clickByElement(By.xpath(str));
+        driver.switchTo().defaultContent();
+        return this;
+    }
 
-        if (instance.getGpu() != null) {
-            clickByElement(By.xpath(ELEMENT_XPATH_ADD_GPU));
-            clickByElement(By.xpath(ELEMENT_XPATH_GPU_NUMBER));
-            clickByElement(By.xpath(instance.getGpu().getNumber().getElementXpath()));
-            clickByElement(By.xpath(ELEMENT_XPATH_GPU__TYPE));
-            clickByElement(By.xpath(instance.getGpu().getType().getElementXpath()));
-        }
+    public CloudGoogleCalculatorPage selectLocation(String str) {
+        waitFramesAndSwitchToIt();
+        clickByElement(By.xpath(ELEMENT_XPATH_DATACENTER_LOCATION));
+        clickByElement(By.xpath(str));
+        driver.switchTo().defaultContent();
+        return this;
+    }
 
-        if (instance.getSsd() != null) {
-            clickByElement(By.xpath(ELEMENT_XPATH_LOCAL_SSD));
-            clickByElement(By.xpath(instance.getSsd().getElementXpath()));
-        }
+    public CloudGoogleCalculatorPage selectCommittedUsage(String str) {
+        waitFramesAndSwitchToIt();
+        clickByElement(By.xpath(ELEMENT_XPATH_COMMITED_USAGE));
+        clickByElement(By.xpath(str));
+        driver.switchTo().defaultContent();
+        return this;
+    }
 
-        if (instance.getLocation() != null) {
-            clickByElement(By.xpath(ELEMENT_XPATH_DATACENTER_LOCATION));
-            clickByElement(By.xpath(instance.getLocation().getElementXpath()));
-        }
-
-        if (instance.getUsage() != null) {
-            clickByElement(By.xpath(ELEMENT_XPATH_COMMITED_USAGE));
-            clickByElement(By.xpath(instance.getUsage().getElementXpath()));
-        }
-
+    public ResultsPastebinPage clickByAddToEstimate() {
+        waitFramesAndSwitchToIt();
         clickByElement(By.xpath(BUTTON_ADD_TO_ESTIMATE));
         driver.switchTo().defaultContent();
-        return new ResultsPastebinPage(driver);
+        return new ResultsPastebinPage();
     }
 }

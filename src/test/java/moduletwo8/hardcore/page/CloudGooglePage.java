@@ -8,25 +8,32 @@ import org.openqa.selenium.WebElement;
 public class CloudGooglePage extends AbstractPage {
 
     private static final String CLOUD_GOOGLE_PAGE = " https://cloud.google.com/";
+    private static final By LOCATOR_BUTTON_SEARCH = By.xpath( "//input[@name='q']") ;
+    private static final By LOCATOR_SEARCHING_RESULTS_CALCULATOR_PAGE = By.xpath("//div[@class='gs-title']//a");
 
-    private CloudGooglePage(WebDriver driver) {
-        super(driver);
+    private CloudGooglePage() {
+        super();
     }
 
-    public static CloudGooglePage openPage(WebDriver driver) {
-        CloudGooglePage cloudGooglePage = new CloudGooglePage(driver);
+    public static CloudGooglePage openPage() {
+        CloudGooglePage cloudGooglePage = new CloudGooglePage();
         driver.get(CLOUD_GOOGLE_PAGE);
         return cloudGooglePage;
     }
 
-    public CloudGoogleCalculatorPage typeTextInSearchBoxAndGoToCalculatorPage(String str) {
-        String xpathSearchBox = "//input[@name='q']";
-        String xpathSearchingResults = "//div[@class='gs-title']//a";
-        WebElement element = driver.findElement(By.xpath(xpathSearchBox));
-        clickByElement(element);
-        element.sendKeys(str);
-        element.sendKeys(Keys.ENTER);
-        clickByElement(By.xpath(xpathSearchingResults));
-        return new CloudGoogleCalculatorPage(driver);
+    public CloudGooglePage clickToSearch(){
+        clickByElement(driver.findElement(LOCATOR_BUTTON_SEARCH));
+        return this;
+    }
+
+    public CloudGooglePage typeTextInSearchBox(String str) {
+        driver.findElement(LOCATOR_BUTTON_SEARCH).sendKeys(str);
+        return this;
+    }
+
+    public CloudGoogleCalculatorPage sendEnterAndGoToCalculatorPage() {
+        driver.findElement(LOCATOR_BUTTON_SEARCH).sendKeys(Keys.ENTER);
+        clickByElement(LOCATOR_SEARCHING_RESULTS_CALCULATOR_PAGE);
+        return new CloudGoogleCalculatorPage();
     }
 }

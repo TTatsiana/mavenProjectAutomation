@@ -1,5 +1,6 @@
 package moduletwo8.hardcore.page;
 
+import moduletwo8.hardcore.driver.Driver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -10,15 +11,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class AbstractPage {
 
-    protected WebDriver driver;
-    protected WebDriverWait wait;
-    protected JavascriptExecutor js;
+    protected static WebDriver driver;
+    protected static WebDriverWait wait;
+    protected static JavascriptExecutor js;
 
-    protected AbstractPage(WebDriver driver) {
-        this.driver = driver;
+    protected AbstractPage() {
+        this.driver=setUp();
         this.wait = new WebDriverWait(driver, 120);
         js = (JavascriptExecutor) driver;
         PageFactory.initElements(driver, this);
+    }
+
+    private static WebDriver setUp() {
+        return Driver.getDriver();
     }
 
     protected void waitFramesAndSwitchToIt() {
