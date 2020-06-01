@@ -2,15 +2,15 @@ package moduletwo8.hardcore.model;
 
 public enum VMClass {
 
-    REGULAR("//md-option[@id='select_option_72']/div");
+    REGULAR(72);
 
-    private String elementXpath;
+    private Integer id;
 
-    VMClass(String elementXpath) {
-        this.elementXpath = elementXpath;
+    VMClass(Integer id) {
+        this.id = id;
     }
 
-    public String getElementXpath() {
-        return elementXpath;
+    public Integer getId() {
+        return id;
     }
 }

@@ -2,15 +2,15 @@ package moduletwo8.hardcore.model;
 
 public enum Type {
 
-    STANDART8("//md-option[@id='select_option_212']/div");
+    STANDART8(212);
 
-    private String elementXpath;
+    private Integer id;
 
-    Type(String elementXpath) {
-        this.elementXpath = elementXpath;
+    Type(Integer id) {
+        this.id = id;
     }
 
-    public String getElementXpath() {
-        return elementXpath;
+    public Integer getId() {
+        return id;
     }
 }

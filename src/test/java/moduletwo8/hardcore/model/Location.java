@@ -2,15 +2,15 @@ package moduletwo8.hardcore.model;
 
 public enum Location {
 
-    FRANKFURT("//md-option[@id='select_option_181']/div");
+    FRANKFURT(181);
 
-    private String elementXpath;
+    private Integer id;
 
-    Location(String elementXpath) {
-        this.elementXpath = elementXpath;
+    public Integer getId() {
+        return id;
     }
 
-    public String getElementXpath() {
-        return elementXpath;
+    Location(Integer id) {
+        this.id = id;
     }
 }

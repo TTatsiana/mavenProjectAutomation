@@ -1,15 +1,16 @@
 package moduletwo8.hardcore.model;
 
 public enum Software {
-    FREE("//md-option[@id='select_option_60']/div");
 
-    private String elementXpath;
+    FREE(60);
 
-    Software(String elementXpath) {
-        this.elementXpath = elementXpath;
+    private Integer id;
+
+    Software(Integer id) {
+        this.id = id;
     }
 
-    public String getElementXpath() {
-        return elementXpath;
+    public Integer getId() {
+        return id;
     }
 }

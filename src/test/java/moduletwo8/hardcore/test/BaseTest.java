@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 
 @Listeners({TestListener.class})
-public class CommonConditions {
+public abstract class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public void stopBrowser() {

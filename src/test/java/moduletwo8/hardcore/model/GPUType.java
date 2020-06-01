@@ -2,15 +2,15 @@ package moduletwo8.hardcore.model;
 
 public enum GPUType {
 
-    TESLAK80("//md-option[@id='select_option_346']/div");
+    TESLAK80(346);
 
-    GPUType(String elementXpath) {
-        this.elementXpath = elementXpath;
+    private Integer id;
+
+    public Integer getId() {
+        return id;
     }
 
-    private String elementXpath;
-
-    public String getElementXpath() {
-        return elementXpath;
+    GPUType(Integer id) {
+        this.id = id;
     }
 }

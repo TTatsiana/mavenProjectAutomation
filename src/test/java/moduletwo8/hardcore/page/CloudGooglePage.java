@@ -2,13 +2,11 @@ package moduletwo8.hardcore.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 public class CloudGooglePage extends AbstractPage {
 
     private static final String CLOUD_GOOGLE_PAGE = " https://cloud.google.com/";
-    private static final By LOCATOR_BUTTON_SEARCH = By.xpath( "//input[@name='q']") ;
+    private static final By LOCATOR_BUTTON_SEARCH = By.xpath("//input[@name='q']");
     private static final By LOCATOR_SEARCHING_RESULTS_CALCULATOR_PAGE = By.xpath("//div[@class='gs-title']//a");
 
     private CloudGooglePage() {
@@ -21,7 +19,7 @@ public class CloudGooglePage extends AbstractPage {
         return cloudGooglePage;
     }
 
-    public CloudGooglePage clickToSearch(){
+    public CloudGooglePage clickToSearch() {
         clickByElement(driver.findElement(LOCATOR_BUTTON_SEARCH));
         return this;
     }

@@ -2,15 +2,15 @@ package moduletwo8.hardcore.model;
 
 public enum Usage {
 
-    YEAR1("//md-option[@id='select_option_90']/div");
+    YEAR1(90);
 
-    private String elementXpath;
+    private Integer id;
 
-    Usage(String elementXpath) {
-        this.elementXpath = elementXpath;
+    public Integer getId() {
+        return id;
     }
 
-    public String getElementXpath() {
-        return elementXpath;
+    Usage(Integer id) {
+        this.id = id;
     }
 }

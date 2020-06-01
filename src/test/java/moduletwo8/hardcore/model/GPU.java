@@ -14,14 +14,6 @@ public class GPU {
         return number;
     }
 
-    public void setNumber(NumberOfGPUs number) {
-        this.number = number;
-    }
-
-    public void setType(GPUType type) {
-        this.type = type;
-    }
-
     public GPUType getType() {
         return type;
     }

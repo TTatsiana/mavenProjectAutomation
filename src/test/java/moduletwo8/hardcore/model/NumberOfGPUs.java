@@ -2,15 +2,15 @@ package moduletwo8.hardcore.model;
 
 public enum NumberOfGPUs {
 
-    ONE("//md-option[@id='select_option_339']/div");
+    ONE(339);
 
-    private String elementXpath;
+    private Integer id;
 
-    public String getElementXpath() {
-        return elementXpath;
+    public Integer getId() {
+        return id;
     }
 
-    NumberOfGPUs(String elementXpath) {
-        this.elementXpath = elementXpath;
+    NumberOfGPUs(Integer id) {
+        this.id = id;
     }
 }

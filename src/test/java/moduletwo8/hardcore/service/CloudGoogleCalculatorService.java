@@ -15,26 +15,26 @@ public class CloudGoogleCalculatorService {
             calculatorPage.fillNumberOfInstances(instance.getNumber().toString());
         }
         if (instance.getSoftware() != null) {
-            calculatorPage.selectSoftware(instance.getSoftware().getElementXpath());
+            calculatorPage.selectSoftware(instance.getSoftware().getId());
         }
         if (instance.getVmClass() != null) {
-            calculatorPage.selectVmClass(instance.getVmClass().getElementXpath());
+            calculatorPage.selectVmClass(instance.getVmClass().getId());
         }
         if (instance.getType() != null) {
-            calculatorPage.selectMacineType(instance.getType().getElementXpath());
+            calculatorPage.selectMachineType(instance.getType().getId());
         }
         if (instance.getGpu() != null) {
-            calculatorPage.addGPU(instance.getGpu().getNumber().getElementXpath(),
-                    instance.getGpu().getType().getElementXpath());
+            calculatorPage.addGPU(instance.getGpu().getNumber().getId(),
+                    instance.getGpu().getType().getId());
         }
         if (instance.getSsd() != null) {
-            calculatorPage.selectLocalSSD(instance.getSsd().getElementXpath());
+            calculatorPage.selectLocalSSD(instance.getSsd().getId());
         }
         if (instance.getLocation() != null) {
-            calculatorPage.selectLocation(instance.getLocation().getElementXpath());
+            calculatorPage.selectLocation(instance.getLocation().getId());
         }
         if (instance.getUsage() != null) {
-            calculatorPage.selectCommittedUsage(instance.getUsage().getElementXpath());
+            calculatorPage.selectCommittedUsage(instance.getUsage().getId());
         }
         return calculatorPage.clickByAddToEstimate();
     }

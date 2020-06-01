@@ -16,8 +16,8 @@ public abstract class AbstractPage {
     protected static JavascriptExecutor js;
 
     protected AbstractPage() {
-        this.driver=setUp();
-        this.wait = new WebDriverWait(driver, 120);
+        driver=setUp();
+        wait = new WebDriverWait(driver, 120);
         js = (JavascriptExecutor) driver;
         PageFactory.initElements(driver, this);
     }
